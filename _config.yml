@@ -1,1 +1,3 @@
 theme: jekyll-theme-architect
+title: Parallel Rubiks Cube Solver
+description: Parallel Rubiks Cube Solver implementation using OpenMP for the 15-418 class.
