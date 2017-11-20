@@ -1,3 +1,6 @@
+http://github.com - automatic!
+[GitHub](project_checkpoint.md)
+
 ## TITLE
 
 “Parallel Rubik’s Cube Solver” 
