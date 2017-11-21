@@ -1,5 +1,4 @@
-http://github.com - automatic!
-[GitHub](project_checkpoint.md)
+[Project proposal](index.md) / [Project checkpoint](project_checkpoint.md) / [Tasks](tasks.md)
 
 ## TITLE
 
