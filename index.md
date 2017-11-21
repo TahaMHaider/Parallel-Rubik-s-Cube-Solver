@@ -1,13 +1,5 @@
 [Project proposal](index.md) / [Project checkpoint](project_checkpoint.md) / [Tasks](tasks.md)
 
-## TITLE
-
-“Parallel Rubik’s Cube Solver” 
-
-Diego Garza Rodriguez
-
-Nihar Pol 
-
 ### SUMMARY
 
 Given an arbitrary scrambled Rubik’s cube, we are going to implement a program that determines and finds the sequence with the fewest number of moves required to solve it. We plan to be using shared-address space model on the Xeon Phis. 
