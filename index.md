@@ -1,5 +1,7 @@
 [Project Proposal](index.md) / [Project Checkpoint](project_checkpoint.md) / [Final Project Report](final_project_report.md) / [Tasks](tasks.md)
 
+## PROJECT PROPOSAL
+
 ### SUMMARY
 
 Given an arbitrary scrambled Rubik’s cube, we are going to implement a program that determines and finds the sequence with the fewest number of moves required to solve it. We plan to be using shared-address space model on the Xeon Phis. 
