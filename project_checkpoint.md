@@ -1,4 +1,4 @@
-[Project proposal](index.md) / [Project checkpoint](project_checkpoint.md) / [Tasks](tasks.md)
+[Project Proposal](index.md) / [Project Checkpoint](project_checkpoint.md) / [Final Project Report](final_project_report.md) / [Tasks](tasks.md)
 
 ### CHECKPOINT
 
