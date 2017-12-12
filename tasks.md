@@ -5,38 +5,38 @@
 ### Diego
 
 Thursday, November 23
-- [ ] Basic serial implementation using Iterative Deepening Depth First Search.
+- [x] Basic serial implementation using Iterative Deepening Depth First Search.
 
 Monday, November 27
-- [ ] Record time to solve benchmark cube for serial implementation Iterative Deepening Depth First Search.
-- [ ] Record highest deep achieved by serial Iterative Deepening Depth First Search within 5 minutes using deep 18 cube.
+- [x] Record time to solve benchmark cube for serial implementation Iterative Deepening Depth First Search.
+- [x] Record highest deep achieved by serial Iterative Deepening Depth First Search within 5 minutes using deep 18 cube.
 
 Thursday, November 30
-- [ ] Improving Iterative Deepening Depth First Search parallel algorithm.
+- [x] Improving Iterative Deepening Depth First Search parallel algorithm.
 
 Monday, December 4
-- [ ] Record time to solve benchmark cube for parallel implementation Iterative Deepening Depth First Search.
-- [ ] Record highest deep achieved by parallel Iterative Deepening Depth First Search within 5 minutes using deep 18 cube. 
-- [ ] Compare performance of parallel implementation of Iterative Deepening First Search varying the amount of processors.
+- [x] Record time to solve benchmark cube for parallel implementation Iterative Deepening Depth First Search.
+- [x] Record highest deep achieved by parallel Iterative Deepening Depth First Search within 5 minutes using deep 18 cube. 
+- [x] Compare performance of parallel implementation of Iterative Deepening First Search varying the amount of processors.
 
 Thursday, December 7
 - [ ] Adapting parallel implementation for Iterative Deepening A* search algorithm with manhattan distance heuristic.
 
 Monday, December 11
-- [ ] Implementing pattern database heuristic. 
+- [x] Implementing pattern database heuristic. 
 - [ ] Record time to solve benchmark cube for serial implementation Iterative Deepening A* Search with pattern database heuristic.
 - [ ] Record highest deep achieved by serial Iterative Deepening A* Search with pattern database heuristic within 5 minutes using deep 18 cube.
 
 Tuesday, December 12
-- [ ] Wrap up project and make poster for presentation.
+- [x] Wrap up project and make poster for presentation.
 
 ### Nihar
 
 Thursday, November 23
-- [ ] Basic parallel implementation using Iterative Deepening Depth First Search and OpenMP.
+- [x] Basic parallel implementation using Iterative Deepening Depth First Search and OpenMP.
 
 Monday, November 27
-- [ ] Prune redundant tree searches.
+- [x] Prune redundant tree searches.
 - [ ] Switching serial implementation to Iterative Deepening A* search.
 
 Thursday, November 30
@@ -53,10 +53,10 @@ Thursday, December 7
 - [ ] Compare performance of parallel implementation of A* Search varying the amount of processors.
 
 Monday, December 11
-- [ ] Supporting pattern database heuristic in the parallel algorithm.
+- [x] Supporting pattern database heuristic in the parallel algorithm.
 - [ ] Record time to solve benchmark cube for parallel implementation Iterative Deepening A* Search with pattern databases heuristic.
 - [ ] Record highest deep achieved by parallel Iterative Deepening A* Search  with pattern databases heuristic within 5 minutes using deep 18 cube.
 - [ ] Compare performance of parallel implementation of A* Search with pattern databases heuristic varying the amount of processors.
 
 Tuesday, December 12
-- [ ] Wrap up project and make poster for presentation.
+- [x] Wrap up project and make poster for presentation.
