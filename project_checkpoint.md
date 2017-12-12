@@ -1,6 +1,6 @@
 [Project Proposal](index.md) / [Project Checkpoint](project_checkpoint.md) / [Final Project Report](final_project_report.md) / [Tasks](tasks.md)
 
-### CHECKPOINT
+## CHECKPOINT
 
 For this checkpoint we are revisiting the expected goals and explaining what we found so far in the process of developing this project. In the project proposal our main goal was to find the optimal Rubik's cube solution within a search tree. 
  
