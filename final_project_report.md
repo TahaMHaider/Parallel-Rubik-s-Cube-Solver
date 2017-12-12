@@ -26,7 +26,7 @@ The shared hash table data structure is implemented as an array of pointers to l
 The algorithm takes as input a file that lists the colors of the pieces of the cube corresponding to their positions. The first two lines of the input file indicate the perspective from which the rest of the labels should be interpreted. Specifically, the first line indicates the front face color and the next line indicates the top face color. The next four lines encode the four corners on the front face. Then the next four encode the four middle pieces on the front face. It continues. The entire human-readable input file format is in the file inputs/template.txt. The figure below also indicates how we encoded the state of the cube. 
 
 ![Cube pieces definition](Figure1.png)
-Figure 1. Cube pieces definition.
+<p style="text-align: center;">Figure 1. Cube pieces definition.</p>
 
 We should mention that deciding on this format as the input was not easy, because the way the input was encoded dictated how we would efficiently perform operations on the cube in the actual program. For example, using this format allows a turn of the front face to require modification of only two of the data fields in the cube_t struct (besides those that encode move-related data). 
 
