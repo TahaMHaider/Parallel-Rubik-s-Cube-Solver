@@ -64,47 +64,57 @@ We also tried a naive breadth first search algorithm that allocated huge contigu
 
 Our original serial algorithm was very naive and was simply breadth first search that allocated contiguous blocks of memory for storing the nodes. Then we switched it to be an implementation of iterative deepening depth-first search. For this implementation, we are using the stack standard library because it is serial and we do not experiment a huge demand on memory consumption. A hash table optimized for serial code was implemented, it is very similar to the concurrent approach but improving locality and without atomic operations. The static pruning was also implemented in this algorithm for being able to compare with the latest version of the parallel code.
 
-### RESULTS 
-
-Graph 1. Performance (Computation Time) By Algorithm For Depth 1 Input (times in seconds).
-
-Graph 2. Performance (Computation Time) By Algorithm For Depth 5 Input (times in seconds).
-
-Table 1.Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds). 
-
-Graph 3. Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds).
-
-Table 2. Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds).
-
-Graph 4. Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds).
-
-Graph 5. Performance (Speedup) By Algorithm For Depth 9 Input (times in seconds).
-
-Graph 6. Performance (Computation time) by Optimized Memory Bound with Hash Table Algorithm (times in seconds) for different hash table sizes.
+### RESULTS
 
 We achieved the goals specified in our ‘PLAN TO ACHIEVE’ section of our proposal. We had set an arbitrary goal of obtaining at least 20x speedup. We have achieved this, for instance on depth9 input, 236 threads has 46.9274197x speedup. We measured performance in terms of computation time. This was time taken to run the algorithm on the PHIs and does not include parsing files or writing output data. This time does including sending data to the PHIs but since we don’t send that much data to begin with this mainly measures computation time. 
 
 We will first discuss the performance of our algorithm versions on four inputs: depth 1, depth 5, depth 8, and depth 9. Here, depth indicates the optimal number of moves required to solve the input cube state. The sizes of these inputs is the same, since they are encoded the same way. The final version of our algorithm is the column on the right ‘Optimized Memory bound with Hash Table’. 
 
+![Performance (Computation Time) By Algorithm For Depth 1 Input (times in seconds)](Graph1.png)
+<p style="text-align: center;">Graph 1. Performance (Computation Time) By Algorithm For Depth 1 Input (times in seconds).</p>
+
 On a depth 1 input (graph 1), all the algorithms take up to 0.50 seconds to compute the solution which involves only up to 12 checks. This is why the numbers are generally low and this is mainly a reference to show how the algorithms compare in terms of setup time. The only important thing to observe here is that a larger thread count requires more time due to more overhead in launching the threads. 
+
+![Performance (Computation Time) By Algorithm For Depth 5 Input (times in seconds)](Graph2.png)
+<p style="text-align: center;">Graph 2. Performance (Computation Time) By Algorithm For Depth 5 Input (times in seconds).</p>
 
 Depth 5 (graph 2) is an interesting case study. At depth 5, there is still a small number of nodes that are being evaluated and so the computation times are comparable, with no significant differences except for the Hash Table implementation (For instance, for 16 threads all other implementations finish in at most 0.4 seconds while the hash table implementation takes 0.7 seconds). We see that this implementation takes more time than the others due to the overhead of populating the hash table in the first place. The results in the hash table will be most useful after depth 5 since that is when the hash table becomes read-only and there won’t be any writes. In fact, the one-thread case actually performs better than the others due to the spawn of more processors. In such fast search, it is better to do not spend time with the parallel overhead of more processors than actually doing computation.
 
+![Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds)](Table1.png)
+<p style="text-align: center;">Table 1.Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds).</p>
+
+![Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds)](Graph3.png)
+<p style="text-align: center;">Graph 3. Performance (Computation Time) By Algorithm For Depth 8 Input (times in seconds).</p>
+
 At depth 8 (graph 3), we start to see more interesting results that closely match our predictions. We see firstly that our final implementation is the one of the fastest overall algorithms with 2.070275 second computation time with 236 threads, as read on table 1. However, it is not the fastest. The reason why it is much faster than the algorithms without the hash table is because the hash table is pruning more nodes after depth 5 that would otherwise be naively computed. We also see here that the benefits of pruning are now apparent. Pruning has a computational overhead that occurs when you check to see if a pattern is present in a particular sequence of moves. The pruning implementations (right two columns) perform better than the two columns to the left. For example, with 128 threads, the optimized memory bound implementation takes 2.607953 seconds while the version with pruning added takes just 1.20087 seconds. This is also visible at low thread counts. For instance, with just one thread, the version without pruning takes 311.01571 second while the version with pruning takes just 131.24874 seconds. Another observation we see here is that at this depth the overhead to initiating and managing multiple threads is now quantitatively worth it. All parallel algorithms show decreased computation time up to 128 threads. This indicates that at this depth, the algorithms are taking advantage of the parallelism available to them. Lastly, we also notice here that the Recompute algorithm (breadth-first search, discussed earlier) is taking more time. Although its memory usage is extremely small, because it has to recompute every single node in the tree, its computation time is starting to suffer. For example, with 128 threads it takes 5.32 seconds whereas the iterative deepening depth-first search versions take at most 2.6 seconds. 
 
+![Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds)](Table2.png)
+<p style="text-align: center;">Table 2. Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds).</p>
+
+![Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds)](Graph4.png)
+<p style="text-align: center;">Graph 4. Performance (Computation Time) By Algorithm For Depth 9 Input (times in seconds).</p>
+
 At depth 9 (graph 4), we see similar results to those we saw in depth 8. However, now the hash set implementation is the fastest taking 17.995035 seconds to run with 236 threads, are read on table 2. This indicates that the hash table is actually worth its overhead. After depth 5 it becomes read-only and because each processor will have shared copies of it without any invalidation occuring, it becomes advantageous for the algorithm. Another observation here is that the recompute algorithm is starting to suffer from performance degradation at high thread counts. At 236 threads, it takes 154 seconds to run whereas at 128 threads it takes only 109 seconds to run. When 236 threads are run in parallel on the Xeon Phi, each individual thread suffers performance. Also, there is an implicit barrier at the end of each iteration of the search, so there is a little waste of time waiting for all the tasks, killing the existing threads and spawning them again for the next iteration. This could be improved in a future version of the algorithm.
+
+![Performance (Speedup) By Algorithm For Depth 9 Input (times in seconds)](Graph5.png)
+<p style="text-align: center;">Graph 5. Performance (Speedup) By Algorithm For Depth 9 Input (times in seconds).</p>
 
 The speedup plot (graph 5) shows us which algorithm took advantage of parallelism the most. We analyze from this that the hash table implementation was able to obtain the highest speedup of 46.9274197x (when run with 236 threads). On the other hand, the optimized memory bound version had the lowest speedup of 3.855x. One important observation here is that pruning the nodes has a significant impact on the speedup because it reduces the search space significantly. Quantitatively more nodes can be pruned for larger depths because once a node is pruned, its children won’t be explored, either. Another observation is that the Recompute version had a moderate, but not high maximum speedup of 7.72x despite it being an almost entirely parallel algorithm with little communication between the threads. This indicates that memory storage and management of cube states becomes more advantageous as depth increases, whereas recomputing each node has a peak performance and then drops off. 
 
 One factor that limits the speedup of our algorithm (final implementation) is false sharing within each thread. If we increase the number of cubes handled in a single task placing them one after another so that they fit on a precise number of cache lines, then we will be able to take advantage of the prefetching benefit of accessing contiguous elements. The sizeof(cube_t) is 36 bytes, so even two of them stored next to each other will spill over a cache line and create false sharing in the Xeon Phis which cache line size is of 64 bytes. 
 
+![Performance (Computation time) by Optimized Memory Bound with Hash Table Algorithm (times in seconds) for different hash table sizes](Graph6.png)
+<p style="text-align: center;">Graph 6. Performance (Computation time) by Optimized Memory Bound with Hash Table Algorithm (times in seconds) for different hash table sizes.</p>
+
 Another important graph is the plot of hash table size versus computation time (graph 6). All of these use the hash table implementation on input depth 9. However, here we see the costs to storing more or less information in the hash table. If the hash table is too small (stores up to depth 4), then the algorithm takes longer because fewer nodes can be pruned. For instance, running this implementation with 236 threads still takes 22.34 seconds. If the hash table size is increased too much, then although it will have more information, searching through the information and manipulating it takes more time. If the table stores up to depth 7 nodes, it then takes as much 106 seconds to finish even on 236 threads. Storing up to depth 5 nodes is optimal at 17.99 seconds and that is why we chose it. This becomes simpler to understand analyzing the next graphs.
 
-Graph 7. Cache misses by Optimized Memory Bound Algorithm for different hash table sizes.
+![Cache misses by Optimized Memory Bound Algorithm for different hash table sizes](Graph7.png)
+<p style="text-align: center;">Graph 7. Cache misses by Optimized Memory Bound Algorithm for different hash table sizes.</p>
 
 When we examine the number of cache misses versus the hash table size, we see a constant correlation. The cache miss count of 216,887 for a large table storing up to depth 7 is comparable to the cache miss count of 205,400 for a large table storing up to depth 4. These were all done on the same depth9 input. We suspect that there are two forces affecting this behavior. On one hand, a larger hash table stores more data and thus will result in more nodes being pruned. This decreases the cache miss rate because there are fewer children being examined. However, the cache miss rate increases because initially in creating the table, there will be more cache misses because more memory is allocated and written into. But overall, the cache miss rate remains constant because as we store more nodes in the hash table we are also increasing the hash table size, which reduces the amount of time spent traversing across buckets.
 
-Graph 8. Free hash table memory of depth 5 iteration time (in seconds) by Optimized Memory Bound Algorithm for different hash table sizes.
+![Free hash table memory of depth 5 iteration time (in seconds) by Optimized Memory Bound Algorithm for different hash table sizes](Graph8.png)
+<p style="text-align: center;">Graph 8. Free hash table memory of depth 5 iteration time (in seconds) by Optimized Memory Bound Algorithm for different hash table sizes.</p>
 
 That leaves us with a different main reason of the deprecated performance while increasing the hash table size. As we are able to see in the graph ‘Free hash table memory’, as we increase the hash table size it takes longer to delete the hash table memory within each iteration of iterative deepening. That is why most of the time is spent clearing the memory before starting again. Therefore, we found out that depth 5 stores 248,833 nodes, which equal a hash table memory of 11.39 MB.
 
@@ -112,7 +122,8 @@ With the graphs that we analyzed and the things described in the write-up, we fo
 
 We used gprof to profile our program execution and examine how much time is spent in the different parts.
 
-Table 3. Gprof analysis of time executed per function.
+![Gprof analysis of time executed per function](Table3.png)
+<p style="text-align: center;">Table 3. Gprof analysis of time executed per function.</p>
 
 We are not sure why frame_dummy has a high proportion of time. We did some research, it seems to be a routine that OpenMP performs. 
 
